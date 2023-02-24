@@ -4,11 +4,11 @@
       <h3>Produtos</h3>
     </div>
     <div class="row">
-      <div class="col-md-3 q-mr-md">
+      <div class="col-md-3 q-mr-md q-mb-sm">
         <q-input outlined v-model="nome" label="Nome do produto" />
       </div>
 
-      <div class="col-md-1 q-mr-md">
+      <div class="col-md-1 q-mr-md q-mb-sm">
         <q-input
           type="number"
           outlined
@@ -16,7 +16,7 @@
           label="Quantidade"
         />
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 q-mb-sm">
         <q-input
           type="number"
           outlined
@@ -25,7 +25,7 @@
         />
       </div>
     </div>
-    <div class="row q-mt-sm">
+    <div class="row q-mt-sm q-mb-sm">
       <q-checkbox
         color="teal"
         v-model="fidelidade"
