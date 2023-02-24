@@ -36,13 +36,15 @@
       <q-btn color="secondary" label="Calcular" @click="somaProduto()" />
     </div>
     <div class="q-mt-xl" v-if="verResultado">
-      <h5>Produto: {{ nome }}</h5>
-      <p>Quantidade: {{ quantidade }}</p>
-      <p>Valor unitário: {{ preco }}</p>
-      <p>Valor total: {{ valorTotal }}</p>
-      <p>Valor desconto: {{ valorDesconto }}</p>
-      <p>Total a pagar: {{ valorPagar }}</p>
-      <p>* {{ promocao }}</p>
+      <h5>Produto:{{ nome }}</h5>
+      <p><b>Quantidade:</b> {{ quantidade }}</p>
+      <p><b>Valor unitário:</b> {{ preco }}</p>
+      <p><b>Valor total:</b> {{ valorTotal }}</p>
+      <p><b>Valor desconto:</b> {{ valorDesconto }}</p>
+      <p><b>Total a pagar: </b>{{ valorPagar }}</p>
+      <p>
+        <i>{{ promocao }}</i>
+      </p>
     </div>
   </q-page>
 </template>
@@ -90,7 +92,7 @@ export default defineComponent({
           valorPagar.value,
           valorDesconto.value
         );
-        promocao.value = 'Produto com desconto fidelidade aplicado.';
+        promocao.value = '* Produto com desconto fidelidade aplicado.';
       } else {
         if (quantidade.value >= 4) {
           let porcentagem = valorTotal.value * (10 / 100);
@@ -103,8 +105,12 @@ export default defineComponent({
             valorDesconto.value
           );
           promocao.value =
-            'Produto com promoção de 10% na compra de 4 unidades ou mais.';
+            '* Produto com promoção de 10% na compra de 4 unidades ou mais.';
+        } else {
+          valorPagar.value = valorTotal.value;
+          valorDesconto.value = 0;
         }
+
         if (preco.value >= 50) {
           let porcentagem = valorTotal.value * (5 / 100);
           valorPagar.value = valorTotal.value - porcentagem;
@@ -116,7 +122,10 @@ export default defineComponent({
             valorDesconto.value
           );
           promocao.value =
-            'Produto com 5% desconto na compra de produtos com preço acima de 50 reais.';
+            '* Produto com 5% desconto na compra de produtos com preço acima de 50 reais.';
+        } else {
+          valorPagar.value = valorTotal.value;
+          valorDesconto.value = 0;
         }
       }
     };
