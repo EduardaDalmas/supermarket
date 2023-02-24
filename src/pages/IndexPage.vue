@@ -27,35 +27,99 @@
     </div>
     <div class="row q-mt-sm">
       <q-checkbox
+        color="teal"
         v-model="fidelidade"
         label="Possuo cartão fidelidade e desejo utilizar os descontos disponíveis."
       />
     </div>
+    <div class="row q-mt-xl">
+      <q-btn color="secondary" label="Calcular" @click="somaProduto()" />
+    </div>
+    <div class="q-mt-xl" v-if="verResultado">
+      <h5>Produto: {{ nome }}</h5>
+      <p>Quantidade: {{ quantidade }}</p>
+      <p>Valor unitário: {{ preco }}</p>
+      <p>Valor total: {{ valorTotal }}</p>
+      <p>Valor desconto: {{ valorDesconto }}</p>
+      <p>Total a pagar: {{ valorPagar }}</p>
+      <p>* {{ promocao }}</p>
+    </div>
   </q-page>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'IndexPage',
 
   // se tem promoção
-  // +4 un tem 10% desconto total
+  // +4 un tem 10% desconto total AQUI
   // valor unitario maior 50 tem 5% desconto
-  // se possui fidelidade desconto de 5% no preço total (desconsidera outros descontos)
+  // se possui fidelidade desconto de 5% no preço total (desconsidera outros descontos) OK
   // produto, quantidade, preço uni, preço total, valor de desconto, valor a ser pago
 
   setup() {
-    let nome = ref(null);
-    let quantidade = ref(null);
-    let preco = ref(null);
-    let fidelidade = ref(null);
-    let valorTotal = ref(null);
-    let valorDesconto = ref(null);
-    let valorPagar = ref(null);
+    let nome = ref('');
+    let quantidade = ref('');
+    let preco = ref('');
+    let fidelidade = ref('');
+    let valorTotal = ref('');
+    let valorDesconto = ref('');
+    let valorPagar = ref('');
+    let verResultado = ref(false);
+    let promocao = ref('');
 
-    // const validaDescontos = () => {};
+    const somaProduto = () => {
+      valorTotal.value = `${
+        parseFloat(quantidade.value) * parseFloat(preco.value)
+      }`;
+
+      validaDescontos();
+    };
+
+    const validaDescontos = () => {
+      verResultado.value = true;
+      if (fidelidade.value == true) {
+        let porcentagem = valorTotal.value * (5 / 100);
+        valorPagar.value = valorTotal.value - porcentagem;
+        valorDesconto.value = valorTotal.value - valorPagar.value;
+        console.log(
+          'fidelidade: ',
+          valorTotal.value,
+          valorPagar.value,
+          valorDesconto.value
+        );
+        promocao.value = 'Produto com desconto fidelidade aplicado.';
+      } else {
+        if (quantidade.value >= 4) {
+          let porcentagem = valorTotal.value * (10 / 100);
+          valorPagar.value = valorTotal.value - porcentagem;
+          valorDesconto.value = valorTotal.value - valorPagar.value;
+          console.log(
+            'qtd maior que 4: ',
+            valorTotal.value,
+            valorPagar.value,
+            valorDesconto.value
+          );
+          promocao.value =
+            'Produto com promoção de 10% na compra de 4 unidades ou mais.';
+        }
+        if (preco.value >= 50) {
+          let porcentagem = valorTotal.value * (5 / 100);
+          valorPagar.value = valorTotal.value - porcentagem;
+          valorDesconto.value = valorTotal.value - valorPagar.value;
+          console.log(
+            'preco uni maior que 50: ',
+            valorTotal.value,
+            valorPagar.value,
+            valorDesconto.value
+          );
+          promocao.value =
+            'Produto com 5% desconto na compra de produtos com preço acima de 50 reais.';
+        }
+      }
+    };
 
     return {
       nome,
@@ -65,7 +129,10 @@ export default defineComponent({
       valorTotal,
       valorDesconto,
       valorPagar,
-      // validaDescontos,
+      verResultado,
+      promocao,
+      somaProduto,
+      validaDescontos,
     };
   },
 });
