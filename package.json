@@ -1,8 +1,8 @@
 {
-  "name": "calculo-mercado",
+  "name": "supermarket",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "Quasar App",
+  "productName": "supermarket",
   "author": "DalmasEduarda <eduarda.dalmas@doctorclin.com.br>",
   "private": true,
   "scripts": {

@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar color="cyan-3">
-        <q-toolbar-title> Supermarket Administrator </q-toolbar-title>
+        <q-toolbar-title> Supermarket </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
